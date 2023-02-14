@@ -176,3 +176,5 @@
 ![Alt text](images/Screenshot%20from%202023-02-13%2022-23-08.png)
 
 ![Alt text](images/Screenshot%20from%202023-02-13%2022-33-29.png)
+
+***Notices***: when working with Ingress Controller and Minikube, we may encounter an error that we can't access the application through the host name. To fix that, we need to add the host name to the /etc/hosts file. We add line: 127.0.0.1 my-app.com instead of the minikube ip and host name.
