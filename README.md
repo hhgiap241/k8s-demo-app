@@ -34,13 +34,24 @@
 - Control plane components make global decisions about the cluster (scheduling) as well as detecting and responsding to cluster events (like start new pod when replica is unstaisfied).
 - Control plane can run on any machine in a cluster
 - kube-apiserver: API server is a component of the Kubernetes control plane that exposes the kuber API. This is the frontend for Kubernetes control plane. The main implementation of Kuber API server is kube-apiserver. kube-apiserver is designed to scale horizontally which mean scale by deploying more instances. This is the entrypoint to K8s cluster
-- kube-controller-manager: run controller processes. Logically, each controller is a separate process, but to reduce complexity, they are all compiled into a single binary and run in a single process. Some types of these controllers are:
+  
+  ![Alt text](images/2023-02-14_11-59.png)
+  
+- kube-controller-manager: run controller processes and detect cluster state changes. Logically, each controller is a separate process, but to reduce complexity, they are all compiled into a single binary and run in a single process. Some types of these controllers are:
   - Node controller: responsible for noticing and responding when nodes go down
   - Job controller: watches for job objects that represent one-off tasks, then create Pods to run those tasks to completion.
   - EndpointSlice controller
   - ServiceAccount controller
-- etcd: consistend and highly-available key value store used as Kuber backing store for all cluster data. 
-- kube-scheduler: component that watches for newly created Pods with no assigned node, and select a node for them to run on. 
+
+![Alt text](images/2023-02-14_12-02.png)
+
+- etcd: consistend and highly-available key value store used as Kuber backing store for all cluster data. It also called cluster brain because it stores all the information about the cluster. ***Application data is not stored in etcd***.
+  
+  ![Alt text](images/2023-02-14_12-03.png)
+  
+- kube-scheduler: component that watches for newly created Pods with no assigned node, and select a node for them to run on.  Scheduler is not responsible for placing pods on nodes, or binding pods to nodes. It is responsible for making scheduling decisions.
+
+![Alt text](images/2023-02-14_12-00.png)
 
 ### Node components
 
@@ -122,6 +133,22 @@
 - The StateFull Component work like the Deployment and make sure that all the database pod are synchronized so that no database inconsistencies.
 - Deploying StatefulSet is not easy, so we often deploy database outside of the Kubernetes and we just have deployment part inside Kubernetes.
 
+## K8s Architecture
+
+### Worker node (Node)
+
+- Worker node has multiple Pods on it.
+- Worker nodes do the actual work of running the containers.
+- 3 main components of worker node:
+  - Kubelet: agent that runs on each node in the cluster. It makes sure that containers are running in a pod and interacts with both the container and node.
+  - Kube-proxy: network proxy that runs on each node in the cluster. It maintains network rules on nodes. These network rules allow network communication to your Pods from network sessions inside or outside of your cluster. And it also load balances network traffic across multiple Pods and make sure that the traffic is routed in efficient way.
+  - Container runtime: the software that is responsible for running containers.
+
+### Master node (Control plane)
+
+- Master node is responsible for managing the cluster state and the worker nodes.
+- So whenever we create a new request like create a new pod, service... Master node will take care of that request and make sure that the request is fulfilled.
+- This is the only one entry point to the cluster.
 
 ## Configuration
 
