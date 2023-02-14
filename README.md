@@ -12,14 +12,16 @@
 
 # Kubernetes
 
-- Is an open source container orchestration tool. 
+- Is an open source container orchestration tool, developed by Google.
 - Problems:
   - Support microservices
   - Increase usage of containers
+  &rarr; Demand for a proper way of managing those hundreds of containers.
 - Features:
-  - High availability or no down time
-  - Scalability or high performance
-  - Disaster recovery - backup and restore
+  - Help us to manage containerized applications in different deployment environments
+  - High availability or no down time.
+  - Scalability or high performance.
+  - Disaster recovery - backup and restore.
 
 
 ## Components
@@ -42,6 +44,7 @@
 
 ### Node components
 
+- Node is a simple server virtual or physical machine and the basic or smallest unit of kubernetes is a Pod.
 - kubelet: an agent that runs on each node in the cluster. It makes sure that containter are running in a Pod. The kubelet doesn't manage containers which were not created by Kubernetes.
 - kube-proxy: a network proxy that runs on each node in our cluster. It maintain network rule on nodes. These rules allow network communication to our Pods from network sessions inside or outside our cluster.
 
@@ -61,7 +64,7 @@
 
 - Node (worker node) is a simple server virtual or physical machine and the basic or smallest unit of kubernetes is a Pod.
 - Pod create this running environment or a layer on top of the container. The reason why kubernetes want to abstract away the container runtime or container technologies so that we can replace them if we want to. And we only need to focus on working with Kubernetes layer.
-- Usually, 1 application per pod
+- Usually, 1 application per pod. We can actually run multiple container inside a pod.
 - Kubernetes support a virtual network which mean each pod has its IP address ***but not the container***
 - Each Pods has its own IP address and its not public. New IP address on re-creation.
 
@@ -94,7 +97,8 @@
 - Inside our application pod we can use Secret or Config Map variable as environment variables or as a properties file.
 
 
-### Volume
+### Volumes
+
 - Like volume in docker.
 - What it actually does is attach a physical storage on a hard drive to our pod and that storage could be either on a local machine where the pod is running or it could be on a remove storage meaning of outside the current cluster (external reference to that volume).
 - Kubernetes cluster doesn't manage any data persistance.
@@ -109,8 +113,8 @@
 
 - Service is also a load balancer which mean the service will actually catch the request and forward to whichever part that is least busy to handle this request.
 - To create a replica node. Instead of create a second part but we will define a blueprint for Pods and specify how many replicas you want to have.
-- And that component or that blueprint is called **deployment** which is another component of Kubernetes and in practice we won't working with pod or we won't creating pod. Instead, we will create a deploymnents specify how many replicas you want to scale up or scale down the number of replicas we need.
-- Deployment is abstraction of Pods. And we will work with Deployment more than with Pods.
+- And that component or that blueprint is called **Deployment** which is another component of Kubernetes and in practice we won't working with pod or we won't creating pod. Instead, we will create a deploymnents specify how many replicas you want to scale up or scale down the number of replicas of pods we need.
+- So Pod is the abstraction of containers and Deployment is abstraction of Pods. And we will work with Deployment more than with Pods.
 - Database can't be replicated via Deployment because database has a state which is its data. Meaning that if we have clones or replicas of the database, they would all need to access the same shared data storage, and we need some mechanism to handle this case to avoid insconsistency data.
 - Kubernetes offer another component called Statefulset.
 - This component specially for application like databases or any other stateful applications. Which means that database should be created by the StatefulSet instead of Deployment.
