@@ -1,0 +1,51 @@
+# Deployment and Service in 1 file because they belong to each other
+apiVersion: apps/v1
+kind: Deployment # the Blueprint for Pods
+
+metadata:
+  name: mongo-deployment
+  namespace: k8s-demo-app
+  labels:
+    app: mongo
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template: # Configuration for Pod and has its own metadata and spec section
+    metadata:
+      namespace: k8s-demo-app
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:5.0
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  namespace: k8s-demo-app
+spec:
+  selector: # select pods to forward the request to.
+    app: mongo
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017 # same as container port
