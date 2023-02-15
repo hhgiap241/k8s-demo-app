@@ -78,6 +78,7 @@
 - Usually, 1 application per pod. We can actually run multiple container inside a pod.
 - Kubernetes support a virtual network which mean each pod has its IP address ***but not the container***
 - Each Pods has its own IP address and its not public. New IP address on re-creation.
+- The Pod name  = deployment name + replica id number + its own id number
 
 ### Service and Ingress
 
