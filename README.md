@@ -29,6 +29,17 @@
 - Kubernetes cluster consists of a set of worker machine called nodes that run containerized application.
 - Every cluster has at least one node.
 
+### Namespaces
+
+- Use case:
+  - Namespace uses to structure our components
+  - Avoid conflicts between teams
+  - Share services between different environments
+  - Access and Resource Limits on Namespaces Level
+- Characteristic:
+  - We cant access most resources from another Namespace
+  - Some components are not namespaced, like Nodes, PersistentVolumes, StorageClasses, etc. They live globally in a cluster.
+
 ### Control plane components
 
 - Control plane components make global decisions about the cluster (scheduling) as well as detecting and responsding to cluster events (like start new pod when replica is unstaisfied).
@@ -157,7 +168,7 @@
 - Each configuration file consists of 3 parts
   - Metadata
   - Specification
-  - Status: automatically generated and added by Kubernetes. (Kubernetes will compare the desired state with the actual state &rarr; self-healing feature)
+  - Status: automatically generated and added by Kubernetes. (Kubernetes will compare the desired state with the actual state &rarr; self-healing feature). We can get the status of the component by using the command: `kubectl get <component> <name> -o yaml > <name>.yaml`
   - The status of any kubernetes component is hold by etcd.
 
 ## Minikube and kubectl
